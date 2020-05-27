@@ -6,7 +6,6 @@ import { ApolloLink } from "apollo-link";
 import { typeDefs, defaults, resolvers } from "./clientState";
 
 const cache = new InMemoryCache();
-
 const stateLink = withClientState({
   cache,
   typeDefs,
@@ -19,5 +18,5 @@ const client = new ApolloClient({
   cache,
   link: ApolloLink.from([stateLink]),
 });
-client.initQueryManager();
+
 export default client;

@@ -1,5 +1,14 @@
+import { NOTE_FRAGMENT } from "./fragments";
+
 export const defaults = {
-  notes: [],
+  notes: [
+    {
+      __typename: "Note",
+      id: 1,
+      title: "First",
+      content: "Second",
+    },
+  ],
 };
 export const typeDefs = [
   `
@@ -11,19 +20,30 @@ export const typeDefs = [
     notes: [Note]!
     note(id: Int!): Note
   }
-  type Mutation {
+  type Mutation{
     createNote(title: String!, content: String!): Note
     editNote(id: String!, title: String!, content:String!): Note
   }
-  type Note {
+  type Note{
     id: Int!
-    title String!
+    title: String!
     content: String!
   }
-`,
+    `,
 ];
+
 export const resolvers = {
   Query: {
-    notes: () => true,
+    note: (_, variables, { cache }) => {
+      console.log(variables);
+      // cache에서 정보가져오기
+      const id = cache.config.dataIdFromObject({
+        __typename: "Note",
+        id: variables.id,
+      });
+      console.log(id);
+      const note = cache.readFragment({ fragment: NOTE_FRAGMENT, id });
+      return note;
+    },
   },
 };
