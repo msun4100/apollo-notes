@@ -19,5 +19,5 @@ const client = new ApolloClient({
   cache,
   link: ApolloLink.from([stateLink]),
 });
-
+client.initQueryManager();
 export default client;
