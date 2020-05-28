@@ -21,7 +21,6 @@ const Title = styled.h1`
 const Button = styled.button``;
 
 export default (props) => {
-  console.log("props", props);
   const {
     match: {
       params: { id },
@@ -30,7 +29,7 @@ export default (props) => {
   return (
     <Query query={GET_NOTE} variables={{ id }}>
       {({ data }) => {
-        console.log("data", data);
+        console.log("GET_NOTE", data);
         return data?.note ? (
           <>
             <TitleComponent>
