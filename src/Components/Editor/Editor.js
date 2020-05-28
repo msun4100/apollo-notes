@@ -39,7 +39,7 @@ const Button = styled.button``;
 const Editor = ({ id, title, content, onSave }) => {
   const [titleS, setTitle] = useState(title || "");
   const [contentS, setContent] = useState(content || "");
-  const [idS, setId] = useState(id || null);
+  const [idS] = useState(id || null);
 
   const _onInputChange = (event) => {
     const {

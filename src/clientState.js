@@ -1,15 +1,17 @@
 import { NOTE_FRAGMENT } from "./fragments";
 import { GET_NOTES } from "./queries";
+import { saveNotes, restoreNotes } from "./offline";
 
 export const defaults = {
-  notes: [
-    {
-      __typename: "Note",
-      id: 1,
-      title: "## First",
-      content: "- Second",
-    },
-  ],
+  // notes: [
+  // {
+  //   __typename: "Note",
+  //   id: 1,
+  //   title: "First node Title",
+  //   content: "- content here",
+  // },
+  // ],
+  notes: restoreNotes(),
 };
 export const typeDefs = [
   `
@@ -47,7 +49,6 @@ export const resolvers = {
         __typename: "Note",
         id: variables.id,
       });
-      console.log(id);
       const note = cache.readFragment({ fragment: NOTE_FRAGMENT, id });
       return note;
     },
@@ -67,6 +68,7 @@ export const resolvers = {
           notes: [newNote, ...notes],
         },
       });
+      saveNotes(cache);
       return newNote;
     },
     editNote: (_, { id, title, content }, { cache }) => {
@@ -85,7 +87,7 @@ export const resolvers = {
         fragment: NOTE_FRAGMENT,
         data: updatedNote,
       });
-      console.log(updatedNote);
+      saveNotes(cache);
       return updatedNote;
     },
   },
